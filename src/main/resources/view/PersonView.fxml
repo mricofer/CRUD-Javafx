@@ -17,6 +17,6 @@
             <TableColumn fx:id="colEdad" prefWidth="77.0" text="Edad" />
         </columns>
       </TableView>
-      <Button fx:id="btnAñadir" onAction="#guardarPersonas" layoutX="40.0" layoutY="324.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="206.0" text="Agregar persona" />
+      <Button fx:id="btnAñadir" onAction="#agregarPersona" layoutX="40.0" layoutY="324.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="206.0" text="Agregar persona" />
    </children>
 </AnchorPane>
