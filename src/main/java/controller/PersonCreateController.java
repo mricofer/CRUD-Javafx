@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import model.Persona;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PersonCreateController {
@@ -29,10 +31,13 @@ public class PersonCreateController {
 
     private ObservableList<Persona> personas;
 
-    public void initialize(){}
+
+    public void initialize() {
+        personas = FXCollections.observableArrayList();
+    }
 
     public void setPersonas(ObservableList<Persona> personas) {
-        this.personas = personas;
+        this.personas = Objects.requireNonNullElseGet(personas, FXCollections::observableArrayList);
     }
 
     @FXML
