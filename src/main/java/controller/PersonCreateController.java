@@ -1,8 +1,12 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class PersonCreateController {
 
@@ -17,4 +21,10 @@ public class PersonCreateController {
     @FXML
     private TextField txtEdad;
 
+    public void initialize(URL url, ResourceBundle resources) {
+
+    }
+
+    private void agregarPersona(ActionEvent event) {
+    }
 }
