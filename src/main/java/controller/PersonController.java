@@ -7,15 +7,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Persona;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class PersonController {
 
@@ -29,6 +29,10 @@ public class PersonController {
     private TableColumn colEdad;
     @FXML
     private Button btnAñadir;
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnModificar;
 
     private ObservableList<Persona> personas;
 
@@ -42,6 +46,10 @@ public class PersonController {
         this.colEdad.setCellValueFactory(new PropertyValueFactory("edad"));
     }
 
+    @FXML
+    private void seleccionar(MouseEvent event) {
+        Persona p = (Persona) this.tblPersonas.getSelectionModel().getSelectedItem();
+    }
 
     @FXML
     private void agregarPersona(ActionEvent event) {
@@ -51,7 +59,7 @@ public class PersonController {
             Parent root = loader.load();
 
             PersonCreateController controller = loader.getController();
-            controller.setPersonas(personas);
+
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -61,6 +69,8 @@ public class PersonController {
             stage.showAndWait();
 
             Persona p = controller.getPersona();
+            controller.setPersonas(personas, p);
+
             if (p != null) {
                 personas.add(p);
                 this.tblPersonas.refresh();
@@ -68,6 +78,61 @@ public class PersonController {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void eliminarPersona(ActionEvent event) {
+        Persona p = (Persona) this.tblPersonas.getSelectionModel().getSelectedItem();
+        if (p == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al eliminar");
+            alert.setContentText("Debe seleccionar una persona para eliminarla");
+            alert.showAndWait();
+        } else {
+            personas.remove(p);
+            this.tblPersonas.refresh();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText("Persona eliminada");
+            alert.setContentText("La persona ha sido eliminada correctamente");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void modificarPersona(ActionEvent event) {
+        Persona p = (Persona) this.tblPersonas.getSelectionModel().getSelectedItem();
+        if (p == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al modificar");
+            alert.setContentText("Debe seleccionar una persona para modificarla");
+            alert.showAndWait();
+        } else {
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PersonCreateView.fxml"));
+
+                Parent root = loader.load();
+
+                PersonCreateController controller = loader.getController();
+                controller.setPersonas(personas, p);
+
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                Persona aux = controller.getPersona();
+                if(aux != null){
+                    this.tblPersonas.refresh();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

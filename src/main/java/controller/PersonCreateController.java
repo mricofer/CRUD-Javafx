@@ -35,10 +35,15 @@ public class PersonCreateController {
 
     public void initialize() {
         personas = FXCollections.observableArrayList();
+
     }
 
-    public void setPersonas(ObservableList<Persona> personas) {
+    public void setPersonas(ObservableList<Persona> personas, Persona p) {
         this.personas = Objects.requireNonNullElseGet(personas, FXCollections::observableArrayList);
+        this.persona = p;
+        this.txtNombre.setText(p.getNombre());
+        this.txtApellidos.setText(p.getApellidos());
+        this.txtEdad.setText(String.valueOf(p.getEdad()));
     }
 
     @FXML
@@ -50,12 +55,30 @@ public class PersonCreateController {
         Persona p = new Persona(nombre, apellidos, edad);
 
         if (!personas.contains(p)) {
-            this.persona = p;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
-            alert.setHeaderText("Persona añadida");
-            alert.setContentText("La persona ha sido añadida correctamente");
-            alert.showAndWait();
+
+
+            if (this.persona != null) {
+                //Modificar
+                this.persona.setNombre(nombre);
+                this.persona.setApellidos(apellidos);
+                this.persona.setEdad(edad);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Persona modificada");
+                alert.setContentText("La persona ha sido modificada correctamente");
+                alert.showAndWait();
+
+
+            }else{
+                //Añadir
+                this.persona = p;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Persona añadida");
+                alert.setContentText("La persona ha sido añadida correctamente");
+                alert.showAndWait();
+            }
 
             Stage stage = (Stage) btnGuardar.getScene().getWindow();
             stage.close();
