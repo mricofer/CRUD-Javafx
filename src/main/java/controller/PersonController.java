@@ -32,14 +32,14 @@ public class PersonController {
 
     private ObservableList<Persona> personas;
 
-    public void initialize(URL url, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
         personas = FXCollections.observableArrayList();
         this.tblPersonas.setItems(personas);
 
         this.colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         this.colApellidos.setCellValueFactory(new PropertyValueFactory("apellidos"));
         this.colEdad.setCellValueFactory(new PropertyValueFactory("edad"));
-
     }
 
 

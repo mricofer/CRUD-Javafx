@@ -7,4 +7,7 @@ module com.example.crudjavafx {
 
     opens controller to javafx.fxml;
     exports controller;
+
+    opens model to javafx.base;
+    exports model;
 }
